@@ -1,8 +1,14 @@
-import { Product } from '@prisma/client';
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export type ProductType = Omit<Product, 'id' | 'slug'>;
+export type ProductType = {
+  title: string;
+  description: string;
+  image: Buffer;
+  category: string;
+  price: number;
+  availability: boolean;
+};
 
 export class ProductCreateDto {
   @IsString()
@@ -13,9 +19,6 @@ export class ProductCreateDto {
 
   @IsString()
   category: string;
-
-  @IsString()
-  image: string;
 
   @IsString()
   price: string;

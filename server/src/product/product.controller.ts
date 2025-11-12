@@ -10,10 +10,12 @@ import {
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from '@prisma/client';
-import { ProductCreateDto, ProductFiltersDto } from './dto/product.dto';
+import {
+  ProductCreateDto,
+  ProductFiltersDto,
+  ProductType,
+} from './dto/product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
 
 @Controller('product')
 export class ProductController {
@@ -25,36 +27,19 @@ export class ProductController {
   }
 
   @Post()
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './public',
-        filename: (req, file, cb) => {
-          const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const fileExt = extname(file.originalname);
-          cb(null, uniqueName + fileExt);
-        },
-      }),
-    }),
-  )
+  @UseInterceptors(FileInterceptor('image'))
   async create(
     @Body() data: Omit<ProductCreateDto, 'image'>,
-    @UploadedFile() file,
-  ): Promise<Product | null> {
-    const imageUrl = file
-      ? `/uploads/${file.filename}`
-      : '/uploads/default.jpg';
-
-    const parsedData = {
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const parsedData: ProductType = {
       ...data,
       price: parseFloat(data.price),
       availability: data.availability === 'true',
+      image: file.buffer,
     };
 
-    return this.productService.create({
-      ...parsedData,
-      image: imageUrl,
-    });
+    return this.productService.create(parsedData);
   }
 
   @Get('/categories')

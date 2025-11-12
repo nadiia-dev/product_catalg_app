@@ -13,7 +13,6 @@ export class ProductService {
 
     const where: Prisma.ProductWhereInput = {};
 
-    console.log(searchQuery);
     if (searchQuery) {
       where.title = { contains: searchQuery };
     }
@@ -28,26 +27,51 @@ export class ProductService {
       if (maxPrice !== undefined) where.price.lte = maxPrice;
     }
 
-    return this.prisma.product.findMany({
+    const products = await this.prisma.product.findMany({
       where,
       orderBy: sortByPrice ? { price: sortByPrice } : undefined,
     });
+
+    return products.map((product) => ({
+      ...product,
+      image: `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`,
+    }));
   }
 
   async getBySlug(slug: string): Promise<Product | null> {
-    return await this.prisma.product.findUnique({ where: { slug } });
-  }
+    const product = await this.prisma.product.findUnique({ where: { slug } });
 
+    if (!product) {
+      return null;
+    }
+
+    return {
+      ...product,
+      image: `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`,
+    };
+  }
   async create(data: ProductType): Promise<Product | null> {
     const slug =
       slugify(data.title, { lower: true, strict: true }) +
       '-' +
       Math.random().toString(36).substring(2, 6);
-    return await this.prisma.product.create({ data: { ...data, slug } });
+
+    const prismaData = {
+      ...data,
+      slug,
+      image: new Uint8Array(data.image),
+    };
+
+    const product = await this.prisma.product.create({ data: prismaData });
+
+    return {
+      ...product,
+      image: `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`,
+    };
   }
 
   async getRelated(slug: string, category: string): Promise<Product[] | null> {
-    return await this.prisma.product.findMany({
+    const products = await this.prisma.product.findMany({
       where: {
         category: { equals: category },
         slug: { not: slug },
@@ -55,6 +79,11 @@ export class ProductService {
       take: 4,
       orderBy: { id: 'desc' },
     });
+
+    return products.map((product) => ({
+      ...product,
+      image: `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`,
+    }));
   }
 
   async getAllCategories(): Promise<string[] | null> {
