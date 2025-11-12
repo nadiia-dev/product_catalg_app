@@ -1,0 +1,20 @@
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  .spinner {
+    animation: spin 1s linear infinite;
+    border-radius: 100px;
+    height: 2rem;
+    width: 2rem;
+    border-bottom: 2px solid #111827;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

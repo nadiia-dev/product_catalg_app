@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient, Product } from '@prisma/client';
-import { ProductFiltersDto, ProductType } from './dto/product.dto';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { ProductFiltersDto } from './dto/product.dto';
 import slugify from 'slugify';
+import { ProductReturnType, ProductType } from './product.type';
 
 @Injectable()
 export class ProductService {
   private prisma = new PrismaClient();
 
-  async getAll(filters: ProductFiltersDto): Promise<Product[] | null> {
+  async getAll(
+    filters: ProductFiltersDto,
+  ): Promise<ProductReturnType[] | null> {
     const { searchQuery, categories, minPrice, maxPrice, sortByPrice } =
       filters;
 
@@ -38,7 +41,7 @@ export class ProductService {
     }));
   }
 
-  async getBySlug(slug: string): Promise<Product | null> {
+  async getBySlug(slug: string): Promise<ProductReturnType | null> {
     const product = await this.prisma.product.findUnique({ where: { slug } });
 
     if (!product) {
@@ -50,7 +53,8 @@ export class ProductService {
       image: `data:image/jpeg;base64,${Buffer.from(product.image).toString('base64')}`,
     };
   }
-  async create(data: ProductType): Promise<Product | null> {
+
+  async create(data: ProductType): Promise<ProductReturnType | null> {
     const slug =
       slugify(data.title, { lower: true, strict: true }) +
       '-' +
@@ -59,7 +63,7 @@ export class ProductService {
     const prismaData = {
       ...data,
       slug,
-      image: new Uint8Array(data.image),
+      image: Buffer.from(data.image),
     };
 
     const product = await this.prisma.product.create({ data: prismaData });
@@ -70,7 +74,10 @@ export class ProductService {
     };
   }
 
-  async getRelated(slug: string, category: string): Promise<Product[] | null> {
+  async getRelated(
+    slug: string,
+    category: string,
+  ): Promise<ProductReturnType[] | null> {
     const products = await this.prisma.product.findMany({
       where: {
         category: { equals: category },

@@ -1,15 +1,6 @@
 import { Transform, Type } from 'class-transformer';
 import { IsArray, IsIn, IsNumber, IsOptional, IsString } from 'class-validator';
 
-export type ProductType = {
-  title: string;
-  description: string;
-  image: Buffer;
-  category: string;
-  price: number;
-  availability: boolean;
-};
-
 export class ProductCreateDto {
   @IsString()
   title: string;

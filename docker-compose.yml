@@ -35,7 +35,7 @@ services:
       - ${PORT_API}:${PORT_API}
     volumes:
       - ./server:/app
-      - /app/node_modules
+      - server_node_modules:/app/node_modules
     container_name: server
     depends_on:
       - db
@@ -44,17 +44,21 @@ services:
     build:
       dockerfile: Dockerfile
       context: "./client"
-    restart: always
+    stdin_open: true
     environment:
-      - SERVER_URI=${SERVER_URI}
+      - WATCHPACK_POLLING=true
+      - PORT_CLIENT=${PORT_CLIENT}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+      - NEXT_PUBLIC_ADMIN_LOGIN=${NEXT_PUBLIC_ADMIN_LOGIN}
+      - NEXT_PUBLIC_ADMIN_PASS=${NEXT_PUBLIC_ADMIN_PASS}
     ports:
       - ${PORT_CLIENT}:${PORT_CLIENT}
     volumes:
       - ./client:/app
-      - /app/node_modules
+      - client_node_modules:/app/node_modules
     container_name: client
-    depends_on:
-      - db
 
 volumes:
   db_data:
+  server_node_modules:
+  client_node_modules:

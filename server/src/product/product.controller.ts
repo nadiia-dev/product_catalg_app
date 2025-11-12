@@ -9,20 +9,18 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { Product } from '@prisma/client';
-import {
-  ProductCreateDto,
-  ProductFiltersDto,
-  ProductType,
-} from './dto/product.dto';
+import { ProductCreateDto, ProductFiltersDto } from './dto/product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ProductReturnType, ProductType } from './product.type';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  async getAll(@Query() filters: ProductFiltersDto): Promise<Product[] | null> {
+  async getAll(
+    @Query() filters: ProductFiltersDto,
+  ): Promise<ProductReturnType[] | null> {
     return await this.productService.getAll(filters);
   }
 
@@ -48,7 +46,9 @@ export class ProductController {
   }
 
   @Get(':slug')
-  async getBySlug(@Param('slug') slug: string): Promise<Product | null> {
+  async getBySlug(
+    @Param('slug') slug: string,
+  ): Promise<ProductReturnType | null> {
     return await this.productService.getBySlug(slug);
   }
 
@@ -56,7 +56,7 @@ export class ProductController {
   async getRelated(
     @Param('slug') slug: string,
     @Param('category') category: string,
-  ): Promise<Product[] | null> {
+  ): Promise<ProductReturnType[] | null> {
     return await this.productService.getRelated(slug, category);
   }
 }

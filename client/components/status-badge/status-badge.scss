@@ -1,0 +1,17 @@
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  text-align: center;
+
+  &.in-stock {
+    background-color: green;
+  }
+
+  &.sold-out {
+    background-color: red;
+  }
+}

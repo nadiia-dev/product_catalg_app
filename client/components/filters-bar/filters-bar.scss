@@ -1,0 +1,67 @@
+.sidebar-filters {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-width: 250px;
+  box-sizing: border-box;
+
+  .filter-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      padding: 6px 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    input[type="text"] {
+      border: none;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      font-size: 0.9rem;
+    }
+
+    input:focus {
+      outline: none;
+    }
+
+    &__search {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px 10px;
+    }
+
+    &__categories {
+      display: flex;
+      align-items: baseline;
+      gap: 5px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .price-inputs {
+      display: flex;
+      gap: 10px;
+
+      input {
+        max-width: 100%;
+        flex: 1;
+      }
+    }
+  }
+}
