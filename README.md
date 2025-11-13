@@ -68,7 +68,7 @@ docker-compose up --build -d
 npx prisma generate
 
 # To appy existing migrations
-npx prisma migrate deploy
+npm run migrate
 
 # To add new migration
 npx prisma migrate dev --name migration_name
@@ -83,12 +83,14 @@ npm run start:dev
 npm run dev
 ```
 
+7. To manage database through adminer open http://localhost:8080 and enter database login credentials from docker-compose.yml
+
 ## Usage
 
 - Use the main page to view all products.
 - Use the search/filter functionality to narrow down results.
 - Click a product to view detailed info.
-- To add/edit/remove a product, go to the admin section and fill in the required fields.
+- To add a product, go to the admin section and fill in the required fields.
 
 ## Admin panel credentials
 
