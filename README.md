@@ -80,7 +80,7 @@ npx prisma migrate dev --name migration_name
 # In `/server`
 npm run start:dev
 # In `/client`
-npm run start
+npm run dev
 ```
 
 ## Usage
