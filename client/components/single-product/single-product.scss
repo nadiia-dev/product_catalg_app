@@ -51,4 +51,54 @@
     margin-bottom: 15px;
     margin-top: 40px;
   }
+
+  @media (max-width: 768px) {
+    padding: 15px;
+
+    h1 {
+      font-size: 1.75rem;
+    }
+
+    > div {
+      gap: 15px;
+
+      img {
+        width: 150px;
+        height: 150px;
+      }
+
+      > div > div:first-of-type p {
+        font-size: 1.1rem;
+      }
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 30px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px;
+
+    > div {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
+  }
 }

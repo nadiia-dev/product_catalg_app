@@ -7,6 +7,7 @@
   border-bottom: 1px solid #e5e5e5;
 
   &__logo {
+    text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
@@ -34,6 +35,32 @@
     &:focus {
       outline: 2px solid #005bb5;
       outline-offset: 2px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+
+    &__logo {
+      font-size: 1.25rem;
+    }
+
+    &__btn {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+
+    &__logo {
+      font-size: 1.1rem;
+    }
+
+    &__btn {
+      font-size: 0.85rem;
+      padding: 0.4rem 0.8rem;
     }
   }
 }

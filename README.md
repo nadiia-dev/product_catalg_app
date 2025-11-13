@@ -96,3 +96,6 @@ npm run dev
 
 username - admin
 password - pass
+
+репо: https://github.com/nadiia-dev/product_catalg_app
+деплой: https://product-catalg-app.vercel.app/

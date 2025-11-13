@@ -4,6 +4,7 @@ import "./header.scss";
 import { RootState } from "@/store/store";
 import { logout } from "@/store/slices/auth";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Header = () => {
   const isAdmin = useSelector((state: RootState) => state.auth.isAdmin);
@@ -12,7 +13,9 @@ const Header = () => {
 
   return (
     <header className="header">
-      <div className="header__logo">MyShop</div>
+      <Link className="header__logo" href="/">
+        MyShop
+      </Link>
       {!isAdmin ? (
         <button className="header__btn" onClick={() => router.push("/login")}>
           Login

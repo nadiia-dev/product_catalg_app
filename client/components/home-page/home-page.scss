@@ -46,4 +46,34 @@
       outline-offset: 2px;
     }
   }
+
+  @media (max-width: 768px) {
+    gap: 15px;
+    padding: 15px;
+
+    > :first-child {
+      flex: 0 0 200px;
+    }
+
+    > :nth-child(2) button {
+      align-self: flex-end;
+    }
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+
+    > :first-child,
+    > :nth-child(2) {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
+    > :nth-child(2) button {
+      align-self: flex-start;
+      margin-top: 10px;
+    }
+  }
 }
